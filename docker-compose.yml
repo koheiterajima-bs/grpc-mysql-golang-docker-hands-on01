@@ -1,0 +1,25 @@
+version: '3'
+services:
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: todo_db
+      MYSQL_USER: geouser
+      MYSQL_PASSWORD: geouserpassword
+    ports:
+      - "3306:3306"
+
+  server:
+    build: .
+    ports:
+      - "50051:50051"
+    depends_on:
+      - db
+    environment:
+      - DB_HOST=db
+    networks:
+      - db-network
+
+networks:
+  db-network:
